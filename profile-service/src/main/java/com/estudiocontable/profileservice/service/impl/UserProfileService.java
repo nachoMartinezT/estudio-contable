@@ -36,8 +36,13 @@ public class UserProfileService implements IUserProfileService {
     }
 
     @Override
-    public UserProfileDTO findUserById() {
-        return null;
+    public UserProfileDTO findUserById(Long id) {
+        UserProfile userFinded = userProfileRepository.findById(Long id);
+        UserProfileDTO userProfileDTO= null;
+        if (userFinded != null){
+            userProfileDTO = objectMapper.convertValue(userFinded, UserProfileDTO.getClass());
+        }
+        return userProfileDTO;
     }
 
     @Override

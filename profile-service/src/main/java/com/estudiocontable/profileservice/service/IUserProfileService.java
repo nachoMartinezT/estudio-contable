@@ -10,7 +10,7 @@ public interface IUserProfileService {
 
     Set<UserProfileDTO> getUsers();
 
-    UserProfileDTO findUserById();
+    UserProfileDTO findUserById(Long id);
 
     UserProfileDTO saveUser(UserProfile user);
 
