@@ -37,26 +37,35 @@ public class UserProfileService implements IUserProfileService {
 
     @Override
     public UserProfileDTO findUserById(Long id) {
-        UserProfile userFinded = userProfileRepository.findById(Long id);
+        UserProfile userFound = userProfileRepository.findById(id).orElse(null);
         UserProfileDTO userProfileDTO= null;
-        if (userFinded != null){
-            userProfileDTO = objectMapper.convertValue(userFinded, UserProfileDTO.getClass());
+        if (userFound != null){
+            userProfileDTO = objectMapper.convertValue(userFound, UserProfileDTO.class);
         }
         return userProfileDTO;
     }
 
     @Override
     public UserProfileDTO saveUser(UserProfile user) {
-        return null;
+        UserProfile newUser = userProfileRepository.save(user);
+        return objectMapper.convertValue(newUser, UserProfileDTO.class);
     }
 
     @Override
     public UserProfileDTO updateUser(UserProfile userProfile) {
-        return null;
+        UserProfile userToUpdate = userProfileRepository.findById(userProfile.getId()).orElse(null);
+        UserProfileDTO userToUpdateDTO = null;
+
+        if (userToUpdate != null){
+            userToUpdate = userProfile;
+            userProfileRepository.save(userToUpdate);
+        }
+
+        return objectMapper.convertValue(userToUpdate,UserProfileDTO.class);
     }
 
     @Override
     public void deleteUser(Long id) {
-
+        userProfileRepository.deleteById(id);
     }
 }
